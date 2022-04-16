@@ -1,0 +1,28 @@
+[{
+    "model": "poi.pointofinterest",
+    "pk": 1,
+    "fields": {
+        "name": "Zero",
+        "lat": 0.0,
+        "lon": 0.0,
+        "alt": 0.0
+    }
+}, {
+    "model": "poi.pointofinterest",
+    "pk": 2,
+    "fields": {
+        "name": "North Pole",
+        "lat": 90.0,
+        "lon": 0.0,
+        "alt": 147.0
+    }
+}, {
+    "model": "poi.pointofinterest",
+    "pk": 3,
+    "fields": {
+        "name": "South Pole",
+        "lat": -90.0,
+        "lon": 0.0,
+        "alt": 2835.0
+    }
+}]
