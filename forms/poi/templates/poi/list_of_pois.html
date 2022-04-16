@@ -1,0 +1,3 @@
+{% for poi in list_of_pois %}
+<p><a href="{% url 'poi:poi_details' poi.id %}">{{ poi.name }}</a></p>
+{% endfor %}

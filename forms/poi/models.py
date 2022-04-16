@@ -10,3 +10,5 @@ class PointOfInterest(models.Model):
     lon = models.FloatField('Longitude (degrees)')
     alt = models.FloatField('Altitude (meters)')
     
+    def __str__(self) -> str:
+        return f"{self.name} ({self.lat}°, {self.lon}°, {self.alt}m)"
