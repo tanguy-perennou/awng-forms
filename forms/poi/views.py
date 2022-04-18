@@ -1,4 +1,6 @@
+from django.urls import reverse_lazy
 from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
+from django.views import generic
 
 from .models import PointOfInterest
 from .forms import PointOfInterestForm
@@ -84,3 +86,42 @@ def update_poi(request, poi_id):
             poi.save()
             return redirect('poi:list_of_pois')
     return render(request, 'poi/update_poi.html', locals())
+
+
+# References:
+# - https://docs.djangoproject.com/en/4.0/topics/class-based-views/generic-display
+# - https://docs.djangoproject.com/en/4.0/ref/class-based-views/
+# - https://docs.djangoproject.com/en/4.0/ref/class-based-views/generic-display
+
+class ListView(generic.ListView):
+    template_name = 'poi/list_of_pois.html'
+    context_object_name = 'list_of_pois' # default name passed to template is 'object_list'
+    
+    def get_queryset(self):
+        return PointOfInterest.objects.all()
+
+
+class DetailsView(generic.DetailView):
+    model = PointOfInterest
+    template_name = 'poi/poi_details.html'
+    context_object_name = 'poi' # default name passed to template is 'object'
+
+
+# Following view use as much defaults as possible
+
+class CreateView(generic.CreateView):
+    model = PointOfInterest
+    fields = ['name', 'lat', 'lon', 'alt']
+    success_url = reverse_lazy('poi:gen_list')
+
+
+class UpdateView(generic.UpdateView):
+    model = PointOfInterest
+    fields = ['name', 'lat', 'lon', 'alt']
+    success_url = reverse_lazy('poi:gen_list')
+    template_name_suffix = '_update_form'
+
+
+class DeleteView(generic.DeleteView):
+    model = PointOfInterest
+    success_url = reverse_lazy('poi:gen_list')
