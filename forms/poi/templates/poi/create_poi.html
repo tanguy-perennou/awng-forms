@@ -1,0 +1,7 @@
+<p>HTTP request method: {{ request.method }}</p>
+<form action="{% url 'poi:create_poi' %}" method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="Submit" value="Create new POI">
+    <a href="{% url 'poi:list_of_pois' %}">Cancel</a>
+</form>

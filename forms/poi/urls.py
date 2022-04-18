@@ -7,5 +7,7 @@ urlpatterns = [
     # ex: /poi/
     path('', views.list_of_pois, name='list_of_pois'),
     # ex: /poi/5/
-    path('<int:poi_id>/', views.poi_details, name='poi_details')
+    path('<int:poi_id>/', views.poi_details, name='poi_details'),
+    # ex: /poi/create
+    path('create/', views.create_poi, name='create_poi'),
 ]
