@@ -24,7 +24,7 @@ def create_poi(request):
     """
     Create a new point of interest in the database based on 
     user input collected in a form
-    :param request: The incoming request. It it a POST, it contains input data.
+    :param request: The incoming request. If it is a POST, it contains input data.
     """
     # Reference: https://docs.djangoproject.com/en/4.0/topics/forms/
     if request.method == 'GET':
@@ -50,3 +50,37 @@ def create_poi(request):
         # template can show the invalid fields
     return render(request, 'poi/create_poi.html', locals())
 
+def update_poi(request, poi_id):
+    """
+    Update an existing point of interest in the database based on 
+    user input collected in a form
+    :param request: The incoming request. If it is a GET, it contains
+    original date; if it is a POST, it contains updated data.
+    """
+    # Reference: https://docs.djangoproject.com/en/4.0/ref/forms/api/#django.forms.Form
+    # get existing POI to update from database
+    poi = get_object_or_404(PointOfInterest, pk=poi_id)
+    if request.method == 'GET':
+        # routed via HTTP GET (write in navigator bar or click on link):
+        # populate new form with data from the database
+        data = { 
+            'name': poi.name, 
+            'lat': poi.lat, 
+            'lon': poi.lon,
+            'alt': poi.alt
+        }
+        form = PointOfInterestForm(data)
+    elif request.method == 'POST':
+        # routed via HTTP POST (click on submit button in create page):
+        # create an instance of form using the POST data, just to validate
+        form = PointOfInterestForm(request.POST)
+        if form.is_valid():
+            # update all fields of poi, the object retrieved from the database
+            poi.name = form.cleaned_data['name']
+            poi.lat = form.cleaned_data['lat']
+            poi.lon = form.cleaned_data['lon']
+            poi.alt = form.cleaned_data['alt']
+            # save updated poi into the database
+            poi.save()
+            return redirect('poi:list_of_pois')
+    return render(request, 'poi/update_poi.html', locals())

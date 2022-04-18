@@ -1,0 +1,7 @@
+<p>HTTP request method: {{ request.method }}</p>
+<form action="{% url 'poi:update_poi' poi.id %}" method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="Submit" value="Update POI">
+    <a href="{% url 'poi:list_of_pois' %}">Cancel</a>
+</form>
